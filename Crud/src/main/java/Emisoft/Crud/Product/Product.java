@@ -3,6 +3,7 @@ package Emisoft.Crud.Product;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table
@@ -14,27 +15,29 @@ public class Product
     private String  name;
     private float price;
     private LocalDate  date;
+
+    @Transient
     private int antiquity;
 
     public Product()
     {
     }
 
-    public Product(Long id, String name, float price, LocalDate date, int antiquity)
+    public Product(Long id, String name, float price, LocalDate date)
     {
         this.id = id;
         this.name = name;
         this.price = price;
         this.date = date;
-        this.antiquity = antiquity;
+
     }
 
-    public Product(String name, float price, LocalDate date, int antiquity)
+    public Product(String name, float price, LocalDate date)
     {
         this.name = name;
         this.price = price;
         this.date = date;
-        this.antiquity = antiquity;
+
     }
 
     public Long getId()
@@ -79,7 +82,7 @@ public class Product
 
     public int getAntiquity()
     {
-        return antiquity;
+        return Period.between(this.date, LocalDate.now()).getYears();
     }
 
     public void setAntiquity(int antiquity)
