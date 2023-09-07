@@ -3,9 +3,7 @@ package Emisoft.Crud.Controllers;
 import Emisoft.Crud.Product.Product;
 import Emisoft.Crud.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,11 @@ public class ProductsController
     public List<Product> GetProducts()
     {
         return  productService.GetProducts();
+    }
+
+    @PostMapping
+    public void NewProduct(@RequestBody Product product)
+    {
+        this.productService.NewProduct(product);
     }
 }

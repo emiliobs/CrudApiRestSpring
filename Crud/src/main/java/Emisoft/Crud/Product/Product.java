@@ -55,6 +55,7 @@ public class Product
         return name;
     }
 
+    @Column(unique = true)
     public void setName(String name)
     {
         this.name = name;
