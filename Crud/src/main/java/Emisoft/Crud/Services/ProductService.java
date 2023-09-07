@@ -3,12 +3,13 @@ package Emisoft.Crud.Services;
 import Emisoft.Crud.Product.Product;
 import Emisoft.Crud.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService
@@ -26,17 +27,25 @@ public class ProductService
       return   this.productRepository.findAll();
     }
 
-    public void NewProduct(Product product)
+    public ResponseEntity<Object> NewProduct(Product product)
     {
         Optional<Product> resultProduct = this.productRepository.findProductByName(product.getName());
+        HashMap<String, Object> datas = new HashMap<>();
 
         if (resultProduct.isPresent())
         {
-            throw  new IllegalStateException("There is a Prodcut in DB.");
+            datas.put("Error", true);
+            datas.put("Mensaje", "There is a Product with the same Name.");
+
+           return new ResponseEntity<>(datas,HttpStatus.CONFLICT);
         }
         else
         {
             productRepository.save(product);
+            datas.put("data", product);
+            datas.put("message", "The product was insert in the Db.");
+
+            return new ResponseEntity<>(datas,HttpStatus.CREATED);
         }
     }
 }

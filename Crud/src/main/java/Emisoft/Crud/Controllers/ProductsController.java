@@ -3,9 +3,11 @@ package Emisoft.Crud.Controllers;
 import Emisoft.Crud.Product.Product;
 import Emisoft.Crud.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/products")
@@ -26,8 +28,8 @@ public class ProductsController
     }
 
     @PostMapping
-    public void NewProduct(@RequestBody Product product)
+    public ResponseEntity<Object> NewProduct(@RequestBody Product product)
     {
-        this.productService.NewProduct(product);
+        return productService.NewProduct(product);
     }
 }
