@@ -38,4 +38,10 @@ public class ProductsController
     {
         return  this.productService.EditProduct(product);
     }
+
+    @DeleteMapping(path = "{idProduct}")
+    public  ResponseEntity<Object> DeleteProduct(@PathVariable("idProduct") Long id)
+    {
+        return this.productService.DeleteProduct(id);
+    }
 }
