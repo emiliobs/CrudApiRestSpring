@@ -32,4 +32,10 @@ public class ProductsController
     {
         return productService.NewProduct(product);
     }
+
+    @PutMapping
+    public  ResponseEntity<Object> EditProduct(@RequestBody Product product)
+    {
+        return  this.productService.EditProduct(product);
+    }
 }

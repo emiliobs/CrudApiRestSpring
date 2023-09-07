@@ -11,20 +11,18 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
-@Service
-public class ProductService
+@Service public class ProductService
 {
     private final ProductRepository productRepository;
 
-   @Autowired
-    public ProductService(ProductRepository productRepository)
+    @Autowired public ProductService(ProductRepository productRepository)
     {
         this.productRepository = productRepository;
     }
 
     public List<Product> GetProducts()
     {
-      return   this.productRepository.findAll();
+        return this.productRepository.findAll();
     }
 
     public ResponseEntity<Object> NewProduct(Product product)
@@ -37,7 +35,7 @@ public class ProductService
             datas.put("Error", true);
             datas.put("Mensaje", "There is a Product with the same Name.");
 
-           return new ResponseEntity<>(datas,HttpStatus.CONFLICT);
+            return new ResponseEntity<>(datas, HttpStatus.CONFLICT);
         }
         else
         {
@@ -45,7 +43,35 @@ public class ProductService
             datas.put("data", product);
             datas.put("message", "The product was insert in the Db.");
 
-            return new ResponseEntity<>(datas,HttpStatus.CREATED);
+            return new ResponseEntity<>(datas, HttpStatus.CREATED);
         }
+    }
+
+    public ResponseEntity<Object> EditProduct(Product product)
+    {
+        Optional<Product> prodcutResul = this.productRepository.findProductByName(product.getName());
+        HashMap<String, Object> datas = new HashMap<>();
+
+        if (prodcutResul.isPresent() && product.getId() == null)
+        {
+            datas.put("Error", true);
+            datas.put("message", "There is a product with the same Name.");
+
+            return new ResponseEntity<>(datas, HttpStatus.CONFLICT);
+        }
+
+        datas.put("message", "The product was insert in the Db.");
+
+        if (product.getId()  != null)
+        {
+
+            datas.put("message", "Tha Porduct was Edit Secceful in the Db!");
+
+
+        }
+
+        productRepository.save(product);
+        datas.put("dat", product);
+        return new ResponseEntity<>(datas, HttpStatus.CREATED);
     }
 }
